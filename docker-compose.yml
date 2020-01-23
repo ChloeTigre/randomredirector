@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  randomredirector:
+    image: ChloeTigre/randomredirector:latest
+    labels:
+        - "traefik.enable=true"
+        - "traefik.port=80"
+        - "traefik.http.routers.randomredirector${STACK_NAME}.rule=${RANDOMREDIRECTOR_TRAEFIK_RULES}"
+        - "traefik.http.services.randomredirector${STACK_NAME}.loadbalancer.server.port=3000"
+        - "traefik.docker.network=net-traefik"
+        - "traefik.http.routers.randomredirector${STACK_NAME}.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.randomredirector${STACK_NAME}.entrypoints=websecure"
+        - "traefik.http.routers.randomredirector${STACK_NAME}http.entrypoints=web"
+        - "traefik.http.routers.randomredirector${STACK_NAME}http.rule=${RANDOMREDIRECTOR_TRAEFIK_RULES}"
+        - "traefik.http.routers.randomredirector${STACK_NAME}http.middlewares=redirect-to-https@docker"
+    volumes:
+        - "assets-cache:/app/bern/public/assets/"
+        - "randomredirector-config:/app/bern/config"
+    networks:
+        - backend
+        - reverse-proxy
+networks:
+    reverse-proxy:
+        name: net-traefik
+        external: true
+
