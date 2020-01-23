@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>redirecting</title>
+        <meta charset="UTF-8">
+        <link rel="next" href="//www1.example.invalid">
+        <link rel="next" href="//www2.example.invalid">
+        <link rel="next" href="//www3.example.invalid">
+        <link rel="next" href="//www4.example.invalid">
+        <link rel="next" href="//www5.example.invalid">
+        <script type="text/javascript">
+            const r = document.querySelectorAll('link[rel=next]');
+            var item = r[Math.floor(Math.random()*r.length)];
+            console.log("goto", item.href);
+            document.location = item.href;
+        </script>
+    </head>
+</html>
